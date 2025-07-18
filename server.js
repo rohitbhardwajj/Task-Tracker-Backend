@@ -16,6 +16,15 @@ app.post('/', async (req, res) => {
         .catch(err => res.status(500).send('Error adding task: ' + err.message));
 });
 
+app.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    const { completed } = req.body;
+
+    TaskAdd.findByIdAndUpdate(id, { completed }, { new: true })
+        .then(updatedTask => res.status(200).json(updatedTask))
+        .catch(err => res.status(500).send('Error updating task: ' + err.message));
+});
+
 app.get('/' , async (req , res) =>{
     TaskAdd.find({})
         .then(tasks => res.status(200).json(tasks))
